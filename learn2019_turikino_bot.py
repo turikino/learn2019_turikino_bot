@@ -1,7 +1,10 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import settings
 import ephem
+import datetime
 from datetime import datetime
+import locale
+locale.setlocale(locale.LC_TIME, 'ru_RU')
 import logging
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -55,7 +58,7 @@ def wordcount(bot, update):
 
 
 def next_fool_moon(bot, update):
-    date = datetime.strptime(update.message.text.split()[-1], '%Y-%m-%d')
+    date = datetime.date.today()
     moon_date = ephem.next_full_moon(date)
     update.message.reply_text("Следующее полнолуние произойдет {}.".format(moon_date))
 
