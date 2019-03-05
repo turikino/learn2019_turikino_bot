@@ -1,14 +1,19 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import settings
 import ephem
+from datetime import datetime
 import logging
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='bot.log'
                     )
 
-PROXY = {'proxy_url': 'socks5://t1.learn.python.ru:1080',
-    'urllib3_proxy_kwargs': {'username': 'learn', 'password': 'python'}}
+PROXY = {
+    'proxy_url': 'socks5://t1.learn.python.ru:1080',
+    'urllib3_proxy_kwargs': {
+        'username': 'learn', 'password': 'python'
+    }
+}
 
 
 def greet_user(bot, update):
@@ -48,6 +53,12 @@ def wordcount(bot, update):
         word = "слов"
     update.message.reply_text("В переданной фразе {} {}.".format(count, word))
 
+
+def next_fool_moon(bot, update):
+    date = datetime.strptime(update.message.text.split()[-1], '%Y-%m-%d')
+    moon_date = ephem.next_full_moon(date)
+    update.message.reply_text("Следующее полнолуние произойдет {}.".format(moon_date))
+
 def main():
     mybot = Updater(settings.BOT_TOKEN, request_kwargs=PROXY)
     dp = mybot.dispatcher
@@ -55,6 +66,7 @@ def main():
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
     dp.add_handler(CommandHandler("planet", planet_info))
     dp.add_handler(CommandHandler("wordcount", wordcount))
+    dp.add_handler(CommandHandler("next_fool_moon", next_fool_moon))
     # dp.add_handler(MessageHandler(Filters.text, ephem_info))
     mybot.start_polling()
     mybot.idle()
