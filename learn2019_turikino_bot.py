@@ -36,9 +36,13 @@ def wordcount(bot, update):
     count = len(message.split()) - 1
     if count == 0:
         update.message.reply_text("Ваша строка пуста.")
-    elif (int(count//10))!=1 and (int(count//10))!=11 and (int(count%10))==1:
+    elif (int(count//10))!=1 and (int(count%10))==1:
         word = "слово"
-    elif (int(count%10)) in range(2,5):
+    elif (int(count%10)) in range(2,5) \
+            and count != 11 \
+            and count != 12 \
+            and count != 13 \
+            and count != 14:
         word = "слова"
     elif count > 4:
         word = "слов"
