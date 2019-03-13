@@ -4,6 +4,5 @@
 settings.py
 *.idea/
 bot_test.py
-ageif.py
 *env/
 images/
