@@ -33,7 +33,15 @@ def greet_user(bot, update, user_data):
 
 
 
-def talk_to_me(bot, update):
+def get_user_emo(user_data):
+    if 'emo' in user_data:
+        return user_data['emo']
+    else:
+        user_data['emo'] = emojize(choice(settings.USER_EMOJI), use_aliases=True)
+        return user_data['emo']
+
+
+def talk_to_me(bot, update, user_data):
     user_text = update.message.text 
     print(user_text)
     update.message.reply_text(user_text)
