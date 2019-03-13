@@ -100,6 +100,7 @@ def get_location(bot, update, user_data):
 
 def main():
     mybot = Updater(settings.BOT_TOKEN)
+    logging.info('Бот запускается...')
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler("planet", planet_info))
