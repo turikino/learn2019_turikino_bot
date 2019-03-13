@@ -3,11 +3,11 @@ from random import choice
 from datetime import datetime
 from glob import glob
 from emoji import emojize
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, KeyboardButton
 
 import settings
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 
 import locale
 
@@ -21,18 +21,23 @@ logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     )
 
 
+def greet_user(bot, update, user_data):
+    emo = get_user_emo(user_data)
+    user_data['emo'] = emo
+    text = "Привет {}".format(emo)
+    update.message.reply_text(text, reply_markup=get_keyboard())
+    # smile = emojize(choice(settings.USER_EMOJI), use_aliases=True)
+    # name = update["message"]["chat"]["first_name"]
+    # text = "Привет, {}! {}".format(name, smile)
+    # update.message.reply_text(text)
 
-def greet_user(bot, update):
-    text = 'Вызван /start'
-    print(text)
-    name = update["message"]["chat"]["first_name"]
-    text = "Привет, {}! {}".format(name, smile)
-    update.message.reply_text(text)
+
 
 def talk_to_me(bot, update):
     user_text = update.message.text 
     print(user_text)
     update.message.reply_text(user_text)
+
 
 def planet_info(bot, update):
     planet_name = update.message.text.split()[-1]
@@ -58,6 +63,7 @@ def next_fool_moon(bot, update):
     ephem_date = ephem.next_full_moon(date)
     moon_date = datetime.strptime(str(ephem_date), '%Y/%m/%d %X')
     update.message.reply_text("Следующее полнолуние произойдет в {}.".format(moon_date.strftime('%A %d %B %Y %X')))
+
 
 def send_spacex_picture(bot, update, user_data):
     spacex_list = glob('images/spacex*.jpeg')
