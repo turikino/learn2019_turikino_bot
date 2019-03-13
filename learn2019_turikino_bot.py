@@ -73,10 +73,9 @@ def send_spacex_picture(bot, update, user_data):
     bot.send_photo(chat_id=update.message.chat.id, photo=open(sapcex_pic, 'rb'))
 
 def main():
-    mybot = Updater(settings.BOT_TOKEN, request_kwargs=PROXY)
+    mybot = Updater(settings.BOT_TOKEN)
     dp = mybot.dispatcher
-    dp.add_handler(CommandHandler("start", greet_user))
-    #dp.add_handler(MessageHandler(Filters.text, talk_to_me))
+    dp.add_handler(CommandHandler("start", greet_user, pass_user_data=True))
     dp.add_handler(CommandHandler("planet", planet_info))
     dp.add_handler(CommandHandler("wordcount", wordcount))
     dp.add_handler(CommandHandler("next_fool_moon", next_fool_moon))
