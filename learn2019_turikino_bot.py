@@ -78,6 +78,26 @@ def send_spacex_picture(bot, update, user_data):
     sapcex_pic = choice(spacex_list)
     bot.send_photo(chat_id=update.message.chat.id, photo=open(sapcex_pic, 'rb'))
 
+def get_keyboard():
+    contact_button = KeyboardButton('Прислать контакты', request_contact=True)
+    location_button = KeyboardButton('Прислать координаты', request_location=True)
+    my_keyboard = ReplyKeyboardMarkup([
+        ['Прислать ракету'],
+        [contact_button, location_button]
+    ], resize_keyboard=True
+    )
+    return my_keyboard
+
+def get_contact(bot, update, user_data):
+    print(update.message.contact)
+    update.message.reply_text('Готово {}'.format(get_user_emo(user_data), reply_markup=get_keyboard()))
+
+
+def get_location(bot, update, user_data):
+    print(update.message.location)
+    update.message.reply_text('Готово {}'.format(get_user_emo(user_data), reply_markup=get_keyboard()))
+
+
 def main():
     mybot = Updater(settings.BOT_TOKEN)
     dp = mybot.dispatcher
@@ -86,6 +106,9 @@ def main():
     dp.add_handler(CommandHandler("wordcount", wordcount))
     dp.add_handler(CommandHandler("next_fool_moon", next_fool_moon))
     dp.add_handler(CommandHandler("spacex", send_spacex_picture, pass_user_data=True))
+    dp.add_handler(RegexHandler('^(Прислать ракету)$', send_spacex_picture, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.contact, get_contact, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.location, get_location, pass_user_data=True))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me, pass_user_data=True))
     mybot.start_polling()
     mybot.idle()
