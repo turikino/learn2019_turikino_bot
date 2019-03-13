@@ -3,6 +3,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton
 from random import choice
 import settings
 
+
 def get_user_emo(user_data):
     if 'emo' in user_data:
         return user_data['emo']

@@ -1,21 +1,15 @@
 from handlers import *
 import settings
-
+import logging
+import locale
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 
-import locale
-
 locale.setlocale(locale.LC_TIME, 'ru_RU')
-
-import logging
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='bot.log'
                     )
-
-
-
 
 
 def main():
@@ -34,6 +28,6 @@ def main():
     mybot.start_polling()
     mybot.idle()
 
+
 if __name__ == "__main__":
     main()
-

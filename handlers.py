@@ -37,7 +37,7 @@ def wordcount(bot, update):
     if count == 0:
         update.message.reply_text("Ваша строка пуста.")
     else:
-        word = settings.word_for_counter(count,'слово', 'слова', 'слов')
+        word = settings.word_for_counter(count, 'слово', 'слова', 'слов')
     update.message.reply_text("В переданной фразе {} {}.".format(count, word))
 
 
