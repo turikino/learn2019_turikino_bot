@@ -22,7 +22,8 @@ def greet_user(bot, update):
     text = 'Вызван /start'
     print(text)
     name = update["message"]["chat"]["first_name"]
-    update.message.reply_text("Привет, {}!".format(name))
+    text = "Привет, {}! {}".format(name, smile)
+    update.message.reply_text(text)
 
 def talk_to_me(bot, update):
     user_text = update.message.text 
@@ -62,6 +63,11 @@ def next_fool_moon(bot, update):
     moon_date = datetime.strptime(str(ephem_date), '%Y/%m/%d %X')
     update.message.reply_text("Следующее полнолуние произойдет в {}.".format(moon_date.strftime('%A %d %B %Y %X')))
 
+def send_spacex_picture(bot, update, user_data):
+    spacex_list = glob('images/spacex*.jpeg')
+    sapcex_pic = choice(spacex_list)
+    bot.send_photo(chat_id=update.message.chat.id, photo=open(sapcex_pic, 'rb'))
+
 def main():
     mybot = Updater(settings.BOT_TOKEN, request_kwargs=PROXY)
     dp = mybot.dispatcher
@@ -70,7 +76,8 @@ def main():
     dp.add_handler(CommandHandler("planet", planet_info))
     dp.add_handler(CommandHandler("wordcount", wordcount))
     dp.add_handler(CommandHandler("next_fool_moon", next_fool_moon))
-    # dp.add_handler(MessageHandler(Filters.text, ephem_info))
+    dp.add_handler(CommandHandler("spacex", send_spacex_picture, pass_user_data=True))
+    dp.add_handler(MessageHandler(Filters.text, talk_to_me, pass_user_data=True))
     mybot.start_polling()
     mybot.idle()
 
