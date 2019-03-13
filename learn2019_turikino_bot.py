@@ -1,10 +1,20 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import settings
 import ephem
+from random import choice
 from datetime import datetime
+from glob import glob
+from emoji import emojize
+from telegram import ReplyKeyboardMarkup
+
+import settings
+
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
 import locale
+
 locale.setlocale(locale.LC_TIME, 'ru_RU')
+
 import logging
+
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
                     filename='bot.log'
