@@ -20,12 +20,6 @@ logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     filename='bot.log'
                     )
 
-PROXY = {
-    'proxy_url': 'socks5://t1.learn.python.ru:1080',
-    'urllib3_proxy_kwargs': {
-        'username': 'learn', 'password': 'python'
-    }
-}
 
 
 def greet_user(bot, update):
